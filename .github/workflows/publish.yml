@@ -37,17 +37,6 @@ jobs:
             - name: 'install dependencies'
               run: |
                   yarn -D
-            - name: 'build and publish'
+            - name: 'build'
               run: |
-                  echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
-                  npm run run:publish:gha
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-                  GITHUB_TOKEN: ${{ github.token }}
-                  PUBLISH_PRERELEASE: ${{ github.event.inputs.prerelease }}
-            - name: 'merge into main branch'
-              if: github.event.inputs.prerelease == '' # unless it's a prerelease
-              run: |
-                  git checkout main && \
-                  git merge ${{ github.ref }} && \
-                  git push
+                  npm run build
